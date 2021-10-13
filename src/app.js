@@ -97,7 +97,7 @@ class Superwar {
 
     // Filter Players based on type
     filterPlayers = (type) => {
-        return this.players.filter(player => player.type == type);
+        return this.players.filter(player => player.type ==type);
     }
 
     // Handle player clicks
@@ -124,6 +124,17 @@ class Superwar {
         // Type your code here
 
         // return  'clash' or 'peace';
+        let players= this.players
+        let state = false
+        players.map(ele => {
+            if (ele.strength !=0)
+            state= true
+            else
+            state=false
+        })
+
+        return  (state ? "clash" : "peace")
+       
     }
 
     // Fight
@@ -131,7 +142,6 @@ class Superwar {
         // Filtered the selected players and calculate score
         // Should return HTML element with score
         // Type your code here
-
         if (this.checkWin() !== 'endure')
             setTimeout(() => this.announceWinner(score), 100);
     }
@@ -140,6 +150,12 @@ class Superwar {
     calculateScore = () => {
         // Calculate and return the total score of teams
         // Type your code here
+        let score={hero :0,villain :0}  
+       let hero = this.filterPlayers('hero')
+       let villain = this.filterPlayers('villain')
+       hero.map(ele => score["hero"]+=ele.wins)
+       villain.map(ele => score["villain"]+=ele.wins)
+
 
         return score;
     }
@@ -149,6 +165,16 @@ class Superwar {
         // Find the winner if exists return type hero or villain
         // If winner dosen't exists then return endure
         // Type your code here
+        let result
+        let scores =this.calculateScore()
+        if (scores.villain ===0)
+        result='hero'
+        else if (scores.hero === 0)
+        result="villain"
+        else
+        result="endure"
+        
+
 
       return result;
     }
@@ -157,6 +183,11 @@ class Superwar {
     totalStrength = (type) => {
         // Calculate and return the total strength of the team
         // Type your code here
+        let play = this.filterPlayers(type)
+            let strength=0
+        play.map( (ele) =>
+            strength += ele.strength
+        )
 
         return strength;
     }
