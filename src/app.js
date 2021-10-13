@@ -142,21 +142,31 @@ class Superwar {
         // Filtered the selected players and calculate score
         // Should return HTML element with score
         // Type your code here
+        //console.log(this.players)
+                
+        let score={hero:0,villain:0}
+          let selectedplayer = this.players.filter(player => player.selected === true)
+          selectedplayer.filter(ele => ele.type === 'hero').map(ele => score.hero+= ele.wins)
+           selectedplayer.filter(ele => ele.type === 'villain').map(ele => score.villain+= ele.wins)
+        document.querySelector("#score").innerHTML =score.hero+' - '+score.villain
         if (this.checkWin() !== 'endure')
             setTimeout(() => this.announceWinner(score), 100);
+
     }
 
     // Calculate score
     calculateScore = () => {
         // Calculate and return the total score of teams
         // Type your code here
+        
         let score={hero :0,villain :0}  
        let hero = this.filterPlayers('hero')
        let villain = this.filterPlayers('villain')
        hero.map(ele => score["hero"]+=ele.wins)
        villain.map(ele => score["villain"]+=ele.wins)
-
-
+       
+      
+        
         return score;
     }
 
@@ -165,14 +175,15 @@ class Superwar {
         // Find the winner if exists return type hero or villain
         // If winner dosen't exists then return endure
         // Type your code here
+
         let result
         let scores =this.calculateScore()
+        if (scores.villain === 0 && scores.hero === 0)
+        result ="endure"
         if (scores.villain ===0)
         result='hero'
         else if (scores.hero === 0)
         result="villain"
-        else
-        result="endure"
         
 
 
@@ -194,13 +205,14 @@ class Superwar {
 
     // Announce the winner
     announceWinner = (score) => {
+        console.log(score)
         if (score['hero'] == score['villain'])
             alert('Its a draw!');
         else if (score['hero'] > score['villain'])
             alert('Heroes Win!');
         else
             alert('Villains Win!');
-        location.reload();
+       location.reload();
     }
 }
 
