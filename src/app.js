@@ -134,7 +134,7 @@ class Superwar {
         })
 
         return  (state ? "clash" : "peace")
-       
+
     }
 
     // Fight
@@ -144,11 +144,17 @@ class Superwar {
         // Type your code here
         //console.log(this.players)
                 
-        let score={hero:0,villain:0}
-          let selectedplayer = this.players.filter(player => player.selected === true)
-          selectedplayer.filter(ele => ele.type === 'hero').map(ele => score.hero+= ele.wins)
-           selectedplayer.filter(ele => ele.type === 'villain').map(ele => score.villain+= ele.wins)
-        document.querySelector("#score").innerHTML =score.hero+' - '+score.villain
+        let fighters = this.players.filter(player => player.selected);
+        
+        fighters.forEach(player => {
+            if (player.strength > 0)
+                    player.wins += 1;
+            });
+
+        let score = this.calculateScore();
+        document.getElementById('score').innerHTML =
+            score['hero'] + ' - ' + score['villain'];
+        this.viewPlayers();
         if (this.checkWin() !== 'endure')
             setTimeout(() => this.announceWinner(score), 100);
 
